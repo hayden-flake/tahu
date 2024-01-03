@@ -11,6 +11,7 @@
  *   Cirrus Link Solutions - initial implementation
  ********************************************************************************/
 
+console.log("using pre-built sparkplug-payload package from Hayden's Github")
 import * as ProtoRoot from './sparkplugPayloadProto';
 import Long from 'long';
 import type * as IProtoRoot from './sparkplugPayloadProto';
