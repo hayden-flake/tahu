@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decodePayload = exports.encodePayload = void 0;
+console.log("using pre-built sparkplug-payload package from Hayden's Github");
 const ProtoRoot = __importStar(require("./sparkplugPayloadProto"));
 const long_1 = __importDefault(require("long"));
 const Payload = ProtoRoot.org.eclipse.tahu.protobuf.Payload;
