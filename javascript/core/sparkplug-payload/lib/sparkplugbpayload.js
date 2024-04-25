@@ -62,13 +62,25 @@ function setValue(type, value, object) {
     // TODO not sure about type casts
     switch (type) {
         case 1: // Int8
+            if (object.intValue >= 0)
+                return object.intValue;
+            object.intValue = value + 2 ** 8;
         case 2: // Int16
+            if (object.intValue >= 0)
+                return object.intValue;
+            object.intValue = value + 2 ** 16;
         case 3: // Int32
+            if (object.intValue >= 0)
+                return object.intValue;
+            object.intValue = value + 2 ** 32;
         case 5: // UInt8
         case 6: // UInt16
             object.intValue = value;
             break;
         case 4: // Int64
+            if (object.intValue >= 0)
+                return object.intValue;
+            object.intValue = value + 2 ** 64;
         case 7: // UInt32
         case 8: // UInt64
         case 13: // DateTime
@@ -141,9 +153,11 @@ function getValue(type, object) {
     // TODO change type casts
     switch (type) {
         case 1: // Int8
+            return (object.intValue << 24 >> 24); // Convert to signed 8-bit integer
         case 2: // Int16
+            return (object.intValue << 16 >> 16); // Convert to signed 16-bit integer
         case 3: // Int32
-            return new Int32Array([object.intValue])[0];
+            return (object.intValue | 0); // Convert to signed 32-bit integer
         case 5: // UInt8
         case 6: // UInt16
             return object.intValue;
