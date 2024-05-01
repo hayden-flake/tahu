@@ -115,21 +115,37 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
     // TODO not sure about type casts
     switch (type) {
         case 1: // Int8
-            if (object.intValue! >= 0) return object.intValue
-            object.intValue = value as number + 2**8;
+            if (object.intValue! >= 0) {
+                object.intValue = value as number;
+                break;
+            }
+            object.intValue = value as number + 2 ** 8;
+            break;
         case 2: // Int16
-            if (object.intValue! >= 0) return object.intValue
-            object.intValue = value as number + 2**16;
+            if (object.intValue! >= 0) {
+                object.intValue = value as number;
+                break;
+            }
+            object.intValue = value as number + 2 ** 16;
+            break;
         case 3: // Int32
-            if (object.intValue! >= 0) return object.intValue
-            object.intValue = value as number + 2**32;
+            if (object.intValue! >= 0) {
+                object.intValue = value as number;
+                break;
+            }
+            object.intValue = value as number + 2 ** 32;
+            break;
         case 5: // UInt8
         case 6: // UInt16
             object.intValue = value as number;
             break;
         case 4: // Int64
-            if (object.intValue! >= 0) return object.intValue
+            if (object.intValue! >= 0) {
+                object.intValue = value as number;
+                break;
+            }
             object.intValue = value as number + 2 ** 64;
+            break;
         case 7: // UInt32
         case 8: // UInt64
         case 13: // DateTime
