@@ -115,21 +115,21 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
     // TODO not sure about type casts
     switch (type) {
         case 1: // Int8
-            if (object.intValue! >= 0) {
+            if (value as number >= 0) {
                 object.intValue = value as number;
                 break;
             }
             object.intValue = value as number + 2 ** 8;
             break;
         case 2: // Int16
-            if (object.intValue! >= 0) {
+            if (value as number >= 0) {
                 object.intValue = value as number;
                 break;
             }
             object.intValue = value as number + 2 ** 16;
             break;
         case 3: // Int32
-            if (object.intValue! >= 0) {
+            if (value as number >= 0) {
                 object.intValue = value as number;
                 break;
             }

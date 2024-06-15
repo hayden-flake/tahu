@@ -62,21 +62,21 @@ function setValue(type, value, object) {
     // TODO not sure about type casts
     switch (type) {
         case 1: // Int8
-            if (object.intValue >= 0) {
+            if (value >= 0) {
                 object.intValue = value;
                 break;
             }
             object.intValue = value + 2 ** 8;
             break;
         case 2: // Int16
-            if (object.intValue >= 0) {
+            if (value >= 0) {
                 object.intValue = value;
                 break;
             }
             object.intValue = value + 2 ** 16;
             break;
         case 3: // Int32
-            if (object.intValue >= 0) {
+            if (value >= 0) {
                 object.intValue = value;
                 break;
             }
