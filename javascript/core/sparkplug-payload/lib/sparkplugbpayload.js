@@ -87,7 +87,7 @@ function setValue(type, value, object) {
             object.intValue = value;
             break;
         case 4: // Int64
-            if (object.intValue >= 0) {
+            if (value >= 0) {
                 object.intValue = value;
                 break;
             }

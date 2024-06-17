@@ -140,7 +140,7 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
             object.intValue = value as number;
             break;
         case 4: // Int64
-            if (object.intValue! >= 0) {
+            if (value as number >= 0) {
                 object.intValue = value as number;
                 break;
             }
