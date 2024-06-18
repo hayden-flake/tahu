@@ -145,7 +145,7 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
                 object.longValue = Long.fromNumber(value as number, true);
                 break;
             }
-            object.longValue = Long.fromNumber(value as number + 2 ** 64, true);
+            object.longValue = Long.MAX_UNSIGNED_VALUE.add(value as number);
             break;
         case 8: // UInt64
         case 13: // DateTime
@@ -229,23 +229,13 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
         case 7:
             return object.intValue as T;
         case 4: // Int64
-            let convertedValue;
-            console.log('from sparkplug...', object)
             if (object.longValue instanceof Long) {
-                convertedValue = object.longValue.toNumber();
-            } else {
-                convertedValue = object.longValue;
+                if (object.longValue.compare(Long.MAX_VALUE)) {
+                    return object.longValue.subtract(Long.MAX_VALUE).toNumber() as T;
+                }
+                return object.longValue.toNumber() as T;
             }
-
-            
-            if (convertedValue === null || convertedValue === undefined) {
-                return convertedValue as T;
-            }
-
-            if (convertedValue > (2 ** (64 - 1) - 1)) {
-                return convertedValue - 2 ** 64 as T;
-            }
-            return convertedValue as T;
+            return object.longValue as T;
         case 7: // UInt32
             if (object.longValue instanceof Long) {
                 return object.longValue.toInt() as T;

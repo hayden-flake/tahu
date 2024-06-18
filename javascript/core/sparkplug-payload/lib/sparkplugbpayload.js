@@ -92,7 +92,7 @@ function setValue(type, value, object) {
                 object.longValue = long_1.default.fromNumber(value, true);
                 break;
             }
-            object.longValue = long_1.default.fromNumber(value + 2 ** 64, true);
+            object.longValue = long_1.default.MAX_UNSIGNED_VALUE.add(value);
             break;
         case 8: // UInt64
         case 13: // DateTime
@@ -175,21 +175,13 @@ function getValue(type, object) {
         case 7:
             return object.intValue;
         case 4: // Int64
-            let convertedValue;
-            console.log('from sparkplug...', object);
             if (object.longValue instanceof long_1.default) {
-                convertedValue = object.longValue.toNumber();
+                if (object.longValue.compare(long_1.default.MAX_VALUE)) {
+                    return object.longValue.subtract(long_1.default.MAX_VALUE).toNumber();
+                }
+                return object.longValue.toNumber();
             }
-            else {
-                convertedValue = object.longValue;
-            }
-            if (convertedValue === null || convertedValue === undefined) {
-                return convertedValue;
-            }
-            if (convertedValue > (2 ** (64 - 1) - 1)) {
-                return convertedValue - 2 ** 64;
-            }
-            return convertedValue;
+            return object.longValue;
         case 7: // UInt32
             if (object.longValue instanceof long_1.default) {
                 return object.longValue.toInt();
