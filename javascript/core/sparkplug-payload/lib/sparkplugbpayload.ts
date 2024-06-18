@@ -142,12 +142,10 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
             break;
         case 4: // Int64
             if (value as number >= 0) {
-                object.longValue = value as number;
-                console.log('sparkplug setting value to,', object.longValue)
+                object.longValue = Long.fromNumber(value as number, true);
                 break;
             }
-            object.longValue = value as number + 2 ** 64;
-            console.log('sparkplug setting value to,', object.longValue)
+            object.longValue = Long.fromNumber(value as number + 2 ** 64, true);
             break;
         case 8: // UInt64
         case 13: // DateTime

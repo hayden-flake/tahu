@@ -89,12 +89,10 @@ function setValue(type, value, object) {
             break;
         case 4: // Int64
             if (value >= 0) {
-                object.longValue = value;
-                console.log('sparkplug setting value to,', object.longValue);
+                object.longValue = long_1.default.fromNumber(value, true);
                 break;
             }
-            object.longValue = value + 2 ** 64;
-            console.log('sparkplug setting value to,', object.longValue);
+            object.longValue = long_1.default.fromNumber(value + 2 ** 64, true);
             break;
         case 8: // UInt64
         case 13: // DateTime
