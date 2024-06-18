@@ -88,10 +88,10 @@ function setValue(type, value, object) {
             break;
         case 4: // Int64
             if (value >= 0) {
-                object.intValue = value;
+                object.longValue = value;
                 break;
             }
-            object.intValue = value + 2 ** 64;
+            object.longValue = value + 2 ** 64;
             break;
         case 7: // UInt32
         case 8: // UInt64
