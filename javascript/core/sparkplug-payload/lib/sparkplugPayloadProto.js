@@ -4279,7 +4279,7 @@ $root.org = (function() {
                                     message.intValue = reader.uint32();
                                     break;
                                 case 11:
-                                    message.longValue = Long.fromBytes(reader.bytes(), true);
+                                    message.longValue = $util.Long.fromBytes(reader.bytes(), true);
                                     break;
                                 case 12:
                                     message.floatValue = reader.float();
