@@ -145,7 +145,7 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
                 object.longValue = Long.fromNumber(value as number, true);
                 break;
             }
-            object.longValue = Long.MAX_UNSIGNED_VALUE.add(value as number);
+            object.longValue = Long.MAX_UNSIGNED_VALUE.add(value as number + 1);
             break;
         case 8: // UInt64
         case 13: // DateTime

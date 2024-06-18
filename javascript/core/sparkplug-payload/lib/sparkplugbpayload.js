@@ -92,7 +92,7 @@ function setValue(type, value, object) {
                 object.longValue = long_1.default.fromNumber(value, true);
                 break;
             }
-            object.longValue = long_1.default.MAX_UNSIGNED_VALUE.add(value);
+            object.longValue = long_1.default.MAX_UNSIGNED_VALUE.add(value + 1);
             break;
         case 8: // UInt64
         case 13: // DateTime
@@ -176,8 +176,8 @@ function getValue(type, object) {
             return object.intValue;
         case 4: // Int64
             if (object.longValue instanceof long_1.default) {
-                if (object.longValue.compare(long_1.default.MAX_VALUE)) {
-                    return object.longValue.subtract(long_1.default.MAX_VALUE).toNumber();
+                if (object.longValue.compare(long_1.default.MAX_VALUE) === 1) {
+                    return object.longValue.subtract(long_1.default.MAX_UNSIGNED_VALUE).toNumber();
                 }
                 return object.longValue.toNumber();
             }
