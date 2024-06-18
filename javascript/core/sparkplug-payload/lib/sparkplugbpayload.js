@@ -89,10 +89,12 @@ function setValue(type, value, object) {
             break;
         case 4: // Int64
             if (value >= 0) {
-                object.longValue = new long_1.default(value);
+                object.longValue = value;
+                console.log('sparkplug setting value to,', object.longValue);
                 break;
             }
-            object.longValue = new long_1.default(value + 2 ** 64);
+            object.longValue = value + 2 ** 64;
+            console.log('sparkplug setting value to,', object.longValue);
             break;
         case 8: // UInt64
         case 13: // DateTime
@@ -176,6 +178,7 @@ function getValue(type, object) {
             return object.intValue;
         case 4: // Int64
             let convertedValue;
+            console.log('from sparkplug...', object);
             if (object.longValue instanceof long_1.default) {
                 convertedValue = object.longValue.toNumber();
             }

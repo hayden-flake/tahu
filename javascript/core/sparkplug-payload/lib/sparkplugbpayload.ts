@@ -142,10 +142,12 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
             break;
         case 4: // Int64
             if (value as number >= 0) {
-                object.longValue = new Long(value as number);
+                object.longValue = value as number;
+                console.log('sparkplug setting value to,', object.longValue)
                 break;
             }
-            object.longValue = new Long(value as number + 2 ** 64);
+            object.longValue = value as number + 2 ** 64;
+            console.log('sparkplug setting value to,', object.longValue)
             break;
         case 8: // UInt64
         case 13: // DateTime
@@ -230,6 +232,7 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
             return object.intValue as T;
         case 4: // Int64
             let convertedValue;
+            console.log('from sparkplug...', object)
             if (object.longValue instanceof Long) {
                 convertedValue = object.longValue.toNumber();
             } else {
