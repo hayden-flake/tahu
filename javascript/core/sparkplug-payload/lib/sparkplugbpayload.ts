@@ -229,6 +229,7 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
         case 7: // UInt32
             return object.intValue as T;
         case 4: // Int64
+            console.log('from sparkplug', object)
             if (object.longValue instanceof Long) {
                 if (object.longValue.compare(Long.MAX_VALUE) === 1) {
                     return object.longValue.subtract(Long.MAX_UNSIGNED_VALUE).toNumber() as T;
