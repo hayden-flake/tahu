@@ -137,19 +137,19 @@ function setValue (type: number, value: UserValue, object: IMetric | IPropertyVa
             break;
         case 5: // UInt8
         case 6: // UInt16
+        case 7: // UInt32
             object.intValue = value as number;
             break;
         case 4: // Int64
             if (value as number >= 0) {
-                object.longValue = value as number;
+                object.longValue = new Long(value as number);
                 break;
             }
-            object.longValue = value as number + 2 ** 64;
+            object.longValue = new Long(value as number + 2 ** 64);
             break;
-        case 7: // UInt32
         case 8: // UInt64
         case 13: // DateTime
-            object.longValue = value as number | Long;
+            object.longValue = new Long(value as number);
             break;
         case 9: // Float
             object.floatValue = value as number;
@@ -226,13 +226,25 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
             return (object.intValue! | 0) as T; // Convert to signed 32-bit integer
         case 5: // UInt8
         case 6: // UInt16
+        case 7:
             return object.intValue as T;
         case 4: // Int64
+            let convertedValue;
             if (object.longValue instanceof Long) {
-                return object.longValue.toSigned() as T;
+                convertedValue = object.longValue.toNumber();
             } else {
-                return object.longValue as T;
+                convertedValue = object.longValue;
             }
+
+            
+            if (convertedValue === null || convertedValue === undefined) {
+                return convertedValue as T;
+            }
+
+            if (convertedValue > (2 ** (64 - 1) - 1)) {
+                return convertedValue - 2 ** 64 as T;
+            }
+            return convertedValue as T;
         case 7: // UInt32
             if (object.longValue instanceof Long) {
                 return object.longValue.toInt() as T;
@@ -240,6 +252,10 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
                 return object.longValue as T;
             }
         case 8: // UInt64
+            if (object.longValue instanceof Long) {
+                return object.longValue.toNumber() as T;
+            }
+            return object.longValue as T;
         case 13: // DateTime
             return object.longValue! as T;
         case 9: // Float

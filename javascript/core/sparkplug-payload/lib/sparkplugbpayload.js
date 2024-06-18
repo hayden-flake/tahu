@@ -84,19 +84,19 @@ function setValue(type, value, object) {
             break;
         case 5: // UInt8
         case 6: // UInt16
+        case 7: // UInt32
             object.intValue = value;
             break;
         case 4: // Int64
             if (value >= 0) {
-                object.longValue = value;
+                object.longValue = new long_1.default(value);
                 break;
             }
-            object.longValue = value + 2 ** 64;
+            object.longValue = new long_1.default(value + 2 ** 64);
             break;
-        case 7: // UInt32
         case 8: // UInt64
         case 13: // DateTime
-            object.longValue = value;
+            object.longValue = new long_1.default(value);
             break;
         case 9: // Float
             object.floatValue = value;
@@ -172,14 +172,23 @@ function getValue(type, object) {
             return (object.intValue | 0); // Convert to signed 32-bit integer
         case 5: // UInt8
         case 6: // UInt16
+        case 7:
             return object.intValue;
         case 4: // Int64
+            let convertedValue;
             if (object.longValue instanceof long_1.default) {
-                return object.longValue.toSigned();
+                convertedValue = object.longValue.toNumber();
             }
             else {
-                return object.longValue;
+                convertedValue = object.longValue;
             }
+            if (convertedValue === null || convertedValue === undefined) {
+                return convertedValue;
+            }
+            if (convertedValue > (2 ** (64 - 1) - 1)) {
+                return convertedValue - 2 ** 64;
+            }
+            return convertedValue;
         case 7: // UInt32
             if (object.longValue instanceof long_1.default) {
                 return object.longValue.toInt();
@@ -188,6 +197,10 @@ function getValue(type, object) {
                 return object.longValue;
             }
         case 8: // UInt64
+            if (object.longValue instanceof long_1.default) {
+                return object.longValue.toNumber();
+            }
+            return object.longValue;
         case 13: // DateTime
             return object.longValue;
         case 9: // Float
