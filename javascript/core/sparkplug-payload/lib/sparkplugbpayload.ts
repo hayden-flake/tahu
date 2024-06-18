@@ -226,22 +226,16 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
             return (object.intValue! | 0) as T; // Convert to signed 32-bit integer
         case 5: // UInt8
         case 6: // UInt16
-        case 7:
+        case 7: // UInt32
             return object.intValue as T;
         case 4: // Int64
             if (object.longValue instanceof Long) {
-                if (object.longValue.compare(Long.MAX_VALUE)) {
-                    return object.longValue.subtract(Long.MAX_VALUE).toNumber() as T;
+                if (object.longValue.compare(Long.MAX_VALUE) === 1) {
+                    return object.longValue.subtract(Long.MAX_UNSIGNED_VALUE).toNumber() as T;
                 }
                 return object.longValue.toNumber() as T;
             }
             return object.longValue as T;
-        case 7: // UInt32
-            if (object.longValue instanceof Long) {
-                return object.longValue.toInt() as T;
-            } else {
-                return object.longValue as T;
-            }
         case 8: // UInt64
             if (object.longValue instanceof Long) {
                 return object.longValue.toNumber() as T;

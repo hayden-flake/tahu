@@ -172,7 +172,7 @@ function getValue(type, object) {
             return (object.intValue | 0); // Convert to signed 32-bit integer
         case 5: // UInt8
         case 6: // UInt16
-        case 7:
+        case 7: // UInt32
             return object.intValue;
         case 4: // Int64
             if (object.longValue instanceof long_1.default) {
@@ -182,13 +182,6 @@ function getValue(type, object) {
                 return object.longValue.toNumber();
             }
             return object.longValue;
-        case 7: // UInt32
-            if (object.longValue instanceof long_1.default) {
-                return object.longValue.toInt();
-            }
-            else {
-                return object.longValue;
-            }
         case 8: // UInt64
             if (object.longValue instanceof long_1.default) {
                 return object.longValue.toNumber();
