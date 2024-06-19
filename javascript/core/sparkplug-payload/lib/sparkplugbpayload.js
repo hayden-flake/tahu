@@ -43,7 +43,7 @@ console.log("using pre-built sparkplug-payload package from Hayden's Github");
 const ProtoRoot = __importStar(require("./sparkplugPayloadProto"));
 const long_1 = __importDefault(require("long"));
 const protobuf = __importStar(require("protobufjs"));
-protobuf.util.Long = require('long');
+protobuf.util.Long = long_1.default;
 protobuf.configure();
 const Payload = ProtoRoot.org.eclipse.tahu.protobuf.Payload;
 const Template = Payload.Template;

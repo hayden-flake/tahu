@@ -18,7 +18,7 @@ import type * as IProtoRoot from './sparkplugPayloadProto';
 import type { Reader } from 'protobufjs';
 
 import * as protobuf from 'protobufjs';
-protobuf.util.Long = require('long');
+protobuf.util.Long = Long;
 protobuf.configure();
 
 const Payload = ProtoRoot.org.eclipse.tahu.protobuf.Payload;
