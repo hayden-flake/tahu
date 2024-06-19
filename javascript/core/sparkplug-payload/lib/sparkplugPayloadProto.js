@@ -4279,9 +4279,7 @@ $root.org = (function() {
                                     message.intValue = reader.uint32();
                                     break;
                                 case 11:
-                                    const longValue = reader.uint64();
-                                    console.log('in the proto code', longValue)
-                                    message.longValue = longValue;
+                                    message.longValue = reader.uint64();
                                     break;
                                 case 12:
                                     message.floatValue = reader.float();
