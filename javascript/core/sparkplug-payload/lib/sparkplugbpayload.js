@@ -181,7 +181,9 @@ function getValue(type, object) {
             console.log('from sparkplug', object);
             if (object.longValue instanceof long_1.default) {
                 if (object.longValue.compare(long_1.default.MAX_VALUE) === 1) {
-                    return object.longValue.subtract(long_1.default.MAX_UNSIGNED_VALUE).toNumber();
+                    const signed = object.longValue.subtract(long_1.default.MAX_UNSIGNED_VALUE).subtract(1);
+                    signed.unsigned = false;
+                    return signed.toNumber();
                 }
                 return object.longValue.toNumber();
             }

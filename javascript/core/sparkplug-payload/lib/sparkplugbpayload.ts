@@ -13,7 +13,7 @@
 
 console.log("using pre-built sparkplug-payload package from Hayden's Github")
 import * as ProtoRoot from './sparkplugPayloadProto';
-import Long from 'long';
+import Long, { MAX_UNSIGNED_VALUE } from 'long';
 import type * as IProtoRoot from './sparkplugPayloadProto';
 import type { Reader } from 'protobufjs';
 
@@ -236,7 +236,9 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
             console.log('from sparkplug', object)
             if (object.longValue instanceof Long) {
                 if (object.longValue.compare(Long.MAX_VALUE) === 1) {
-                    return object.longValue.subtract(Long.MAX_UNSIGNED_VALUE).toNumber() as T;
+                    const signed = object.longValue.subtract(Long.MAX_UNSIGNED_VALUE).subtract(1);
+                    signed.unsigned = false;
+                    return signed.toNumber() as T;
                 }
                 return object.longValue.toNumber() as T;
             }
