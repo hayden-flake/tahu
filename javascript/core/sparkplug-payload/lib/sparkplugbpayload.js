@@ -178,7 +178,6 @@ function getValue(type, object) {
         case 7: // UInt32
             return object.intValue;
         case 4: // Int64
-            console.log('from sparkplug', object);
             if (object.longValue instanceof long_1.default) {
                 if (object.longValue.compare(long_1.default.MAX_VALUE) === 1) {
                     const signed = object.longValue.subtract(long_1.default.MAX_UNSIGNED_VALUE).subtract(1);
@@ -938,7 +937,12 @@ function decodeMetric(protoMetric) {
         metric.value = getValue(protoMetric.datatype, protoMetric);
     }
     if (protoMetric.hasOwnProperty("timestamp")) {
-        metric.timestamp = protoMetric.timestamp;
+        if (protoMetric.timestamp instanceof long_1.default) {
+            metric.timestamp = protoMetric.timestamp.toNumber();
+        }
+        else {
+            metric.timestamp = protoMetric.timestamp;
+        }
     }
     if (protoMetric.hasOwnProperty("alias")) {
         metric.alias = protoMetric.alias;
@@ -985,7 +989,12 @@ exports.encodePayload = encodePayload;
 function decodePayload(proto) {
     var sparkplugPayload = Payload.decode(proto), payload = {};
     if (sparkplugPayload.hasOwnProperty("timestamp")) {
-        payload.timestamp = sparkplugPayload.timestamp;
+        if (sparkplugPayload.timestamp instanceof long_1.default) {
+            payload.timestamp = sparkplugPayload.timestamp.toNumber();
+        }
+        else {
+            payload.timestamp = sparkplugPayload.timestamp;
+        }
     }
     if (sparkplugPayload.hasOwnProperty("metrics")) {
         const metrics = [];
@@ -995,7 +1004,12 @@ function decodePayload(proto) {
         payload.metrics = metrics;
     }
     if (sparkplugPayload.hasOwnProperty("seq")) {
-        payload.seq = sparkplugPayload.seq;
+        if (sparkplugPayload.seq instanceof long_1.default) {
+            payload.seq = sparkplugPayload.seq.toNumber();
+        }
+        else {
+            payload.seq = sparkplugPayload.seq;
+        }
     }
     if (sparkplugPayload.hasOwnProperty("uuid")) {
         payload.uuid = sparkplugPayload.uuid;

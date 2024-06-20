@@ -233,7 +233,6 @@ function getValue<T extends UserValue> (type: number | null | undefined, object:
         case 7: // UInt32
             return object.intValue as T;
         case 4: // Int64
-            console.log('from sparkplug', object)
             if (object.longValue instanceof Long) {
                 if (object.longValue.compare(Long.MAX_VALUE) === 1) {
                     const signed = object.longValue.subtract(Long.MAX_UNSIGNED_VALUE).subtract(1);
@@ -1136,7 +1135,11 @@ function decodeMetric (protoMetric: Partial<IMetric>): UMetric {
     }
 
     if (protoMetric.hasOwnProperty("timestamp")) {
-        metric.timestamp = protoMetric.timestamp;
+        if (protoMetric.timestamp instanceof Long) {
+            metric.timestamp = protoMetric.timestamp.toNumber();
+        } else {
+            metric.timestamp = protoMetric.timestamp;
+        }
     }
 
     if (protoMetric.hasOwnProperty("alias")) {
@@ -1198,7 +1201,11 @@ export function decodePayload(proto: Uint8Array | Reader): UPayload {
         payload: UPayload = {};
 
     if (sparkplugPayload.hasOwnProperty("timestamp")) {
-        payload.timestamp = sparkplugPayload.timestamp;
+        if (sparkplugPayload.timestamp instanceof Long) {
+            payload.timestamp = sparkplugPayload.timestamp.toNumber();
+        } else {
+            payload.timestamp = sparkplugPayload.timestamp;
+        }
     }
 
     if (sparkplugPayload.hasOwnProperty("metrics")) {
@@ -1210,7 +1217,11 @@ export function decodePayload(proto: Uint8Array | Reader): UPayload {
     }
 
     if (sparkplugPayload.hasOwnProperty("seq")) {
-        payload.seq = sparkplugPayload.seq;
+        if (sparkplugPayload.seq instanceof Long) {
+            payload.seq = sparkplugPayload.seq.toNumber();
+        } else {
+            payload.seq = sparkplugPayload.seq;
+        }
     }
 
     if (sparkplugPayload.hasOwnProperty("uuid")) {
